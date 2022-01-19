@@ -1,6 +1,6 @@
 package com.halal.customer.controller;
 
-import com.halal.customer.domen.CustomerRegistrationRequest;
+import com.halal.customer.model.CustomerRegistrationRequest;
 import com.halal.customer.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,4 +1,4 @@
-package com.halal.customer.domen;
+package com.halal.customer.model;
 
 public record CustomerRegistrationRequest(
         String firstName,

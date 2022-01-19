@@ -1,4 +1,4 @@
-package com.halal.customer.domen;
+package com.halal.customer.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
