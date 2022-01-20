@@ -6,12 +6,11 @@ import com.halal.customer.model.Customer;
 import com.halal.customer.model.CustomerRegistrationRequest;
 import com.halal.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 public record CustomerService(
         CustomerRepository customerRepository,
-        RestTemplate restTemplate,
+//        RestTemplate restTemplate,
         FraudClient fraudClient
 ) {
     public void registerCustomer(CustomerRegistrationRequest request) {
