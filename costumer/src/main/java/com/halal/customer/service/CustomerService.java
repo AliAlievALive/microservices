@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 @Service
 public record CustomerService(
         CustomerRepository customerRepository,
-//        RestTemplate restTemplate,
         FraudClient fraudClient
 ) {
     public void registerCustomer(CustomerRegistrationRequest request) {
