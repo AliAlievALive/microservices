@@ -1,5 +1,6 @@
 package com.halal.customer.service;
 
+import com.halal.amqp.RabbitMQMessageProducer;
 import com.halal.clients.fraud.FraudCheckResponse;
 import com.halal.clients.fraud.FraudClient;
 import com.halal.clients.notification.NotificationClient;
@@ -12,8 +13,8 @@ import org.springframework.stereotype.Service;
 @Service
 public record CustomerService(
         CustomerRepository customerRepository,
-        NotificationClient notificationClient,
-        FraudClient fraudClient
+        FraudClient fraudClient,
+        RabbitMQMessageProducer rabbitMQMessageProducer
 ) {
     public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
@@ -31,15 +32,17 @@ public record CustomerService(
             throw new IllegalStateException("fraudster");
         }
 
-        notificationClient.sendNotification(
-                new NotificationRequest(
-                        customer.getId(),
-                        customer.getEmail(),
-                        String.format("Hi %s, welcome to MyShop...",
+        NotificationRequest notificationRequest = new NotificationRequest(
+                customer.getId(),
+                customer.getEmail(),
+                String.format("Hi %s, welcome to MyShop...",
                         customer.getFirstName())
-                )
         );
 
-        // TODO: send notification
+        rabbitMQMessageProducer.publish(
+                notificationRequest,
+                "internal.exchange",
+                "internal.notification.routing-key"
+        );
     }
 }
