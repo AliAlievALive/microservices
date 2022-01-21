@@ -9,6 +9,10 @@ spring:
   cloud:
     gateway:
       routes:
+#        - id: zipkin
+#            uri: lb://ZIPKIN
+#            predicates:
+#              - Path=/api/v2/spans/**
         - id: customer
           uri: lb://CUSTOMER
           predicates:
