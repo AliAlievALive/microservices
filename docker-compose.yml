@@ -14,7 +14,6 @@ services:
     networks:
       - postgres
     restart: unless-stopped
-
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
@@ -29,7 +28,6 @@ services:
     networks:
       - postgres
     restart: unless-stopped
-
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
@@ -45,6 +43,8 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - spring
   eureka-server:
     image: alialiev/eureka-server
     container_name: eureka-server
@@ -68,12 +68,56 @@ services:
     depends_on:
       - zipkin
       - eureka-server
+  customer:
+    image: alialiev/costumer
+    container_name: customer
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - rabbitmq
+      - zipkin
+      - eureka-server
+      - postgres
+  fraud:
+    image: alialiev/fraud
+    container_name: fraud
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - rabbitmq
+      - zipkin
+      - eureka-server
+      - postgres
+  notificitaion:
+    image: alialiev/notification
+    container_name: notificitaion
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - rabbitmq
+      - zipkin
+      - eureka-server
+      - postgres
 networks:
   postgres:
     driver: bridge
   spring:
     driver: bridge
-
 volumes:
   postgres:
   postgres-fraud:
