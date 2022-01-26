@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-    <artifactId>costumer</artifactId>
+    <artifactId>customer</artifactId>
 
     <build>
         <plugins>
